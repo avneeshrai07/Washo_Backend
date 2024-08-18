@@ -1,0 +1,33 @@
+{
+  "homepage": "https://avneeshrai07.github.io/Washo_Backend",
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "gh-pages": "^6.1.1",
+    "mongoose": "^8.0.3",
+    "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express-jwt": "^8.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "libphonenumber-js": "^1.10.53",
+    "punycode": "^2.3.1",
+    "razorpay": "^2.9.4",
+    "twilio": "^4.20.0"
+  }
+}
