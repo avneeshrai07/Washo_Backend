@@ -2,7 +2,7 @@
 
 const connectToDatabase = require('./dbConnection');
 const SignUpModel = require('./userModel');
-
+const paymentModel = require('./paymentModel');
 connectToDatabase();
 
-module.exports = { SignUpModel };
+module.exports = { SignUpModel,paymentModel };

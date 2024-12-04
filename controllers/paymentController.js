@@ -1,8 +1,6 @@
-// paymentController.js
-
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const Payment = require('../database/paymentModel.js');
+const { paymentModel } = require('../database/mongodb');
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY,
@@ -33,7 +31,7 @@ exports.verifyPayment = async (req, res) => {
     .digest('hex');
 
   if (generatedSignature === signature) {
-    const newPayment = new Payment({
+    const newPayment = new paymentModel({
       orderId,
       paymentId,
       date: new Date(),

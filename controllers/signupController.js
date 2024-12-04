@@ -1,4 +1,4 @@
-const { SignUpModel } = require('../database/mongodb'); // Make sure the path is correct
+const { SignUpModel } = require('../database/mongodb'); 
 const { sendSMS } = require('./twilioService');
 
 const signupController = async (req, res) => {
@@ -20,7 +20,7 @@ const signupController = async (req, res) => {
     await user.save();
 
     console.log('User signed up successfully.');
-    res.json({ message: 'User signed up successfully.' });
+    res.status(200).json({ message: 'User signed up successfully.' });
   } catch (error) {
     console.error('Error during signup:', error);
     res.status(500).json({ message: 'Internal Server Error', error: error.message });

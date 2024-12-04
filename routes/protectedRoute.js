@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
-const authenticateToken = require('../middlewares/authMiddleware');
-const protectedController = require('../controllers/protectedController');
+const TokenVerification = require('../middlewares/JWT/TokenVerification');
 
-router.get('/protected', authenticateToken, protectedController);
+const router = express.Router();
+
+// Apply `authenticateToken` to all routes under `/api`
+router.use(TokenVerification);
 
 module.exports = router;
