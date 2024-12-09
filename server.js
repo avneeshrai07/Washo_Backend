@@ -3,49 +3,70 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
+
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
-const corsOptions = {
-  origin: 'http://localhost:3000', // Allow your frontend's origin
-  credentials: true,  // Allow sending credentials (cookies, etc.)
-};
+// Initialize Socket.IO with CORS configuration
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+  transports: ["websocket"],
+});
+
+// Attach the Socket.IO instance to the Express app
+app.set("socketio", io);
 
 // Middleware setup
-app.use(cors(corsOptions));  // Correct placement of CORS middleware
-app.use(bodyParser.json());  // Parse JSON bodies
-app.use(cookieParser());     // Parse cookies
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-// Routes and middleware
+// Import and use routes
 const signupRoute = require('./routes/signupRoute');
 const signinRoute = require('./routes/signinRoute');
 const protectedRoute = require('./routes/protectedRoute');
 const paymentRoute = require('./routes/paymentRoute');
 const orderRoute = require('./routes/orderRoute');
+const pushMessageRoute = require('./routes/pushMessageRoute');
 const TokenGenerateRoute = require('./routes/tokenGenerateRoute');
+const fetchMessageRoute = require('./routes/fetchMessageRoute');
 
-// Protect /api routes with protected routes
+
 app.use('/api', protectedRoute);
-
-// Protected routes
 app.use('/api/payment', paymentRoute);
 app.use('/api/orders', orderRoute);
+app.use(TokenGenerateRoute);
+app.use(signupRoute);
+app.use(signinRoute);
+app.use(pushMessageRoute);
+app.use('/fetchMessages/',fetchMessageRoute);
 
-// Normal Routes
-app.use(TokenGenerateRoute); // Token generation route
-app.use(signupRoute);        // Signup route
-app.use(signinRoute);        // Signin route
 
-// Serve static files from the client/public directory
-app.use(express.static(path.join(__dirname, '../client/public')));
+// Serve static files for React
+app.use(express.static(path.join(__dirname, '../client/build')));
 
-// Handle all other routes and serve the React app
+// Handle React routing
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
+// Import and initialize Socket.IO handlers
+require('./middlewares/Socket.io/socketHandler')(io);
+
+
 // Start the server
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

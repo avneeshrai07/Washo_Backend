@@ -29,6 +29,7 @@
     "libphonenumber-js": "^1.10.53",
     "punycode": "^2.3.1",
     "razorpay": "^2.9.4",
+    "socket.io": "^4.8.1",
     "twilio": "^4.20.0"
   }
 }
