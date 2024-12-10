@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { messageModel } = require("../database/messageModel"); // Assuming messageModel handles MongoDB operations
+const { messageModel } = require("../database/messageModel"); 
 
-// Save a new message
 router.post("/messages", async (req, res) => {
   try {
     const io = req.app.get("socketio"); // Get Socket.IO instance
@@ -12,7 +11,7 @@ router.post("/messages", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    // Create a new message document
+    
     const newMessage = new messageModel({
       roomId,
       sender,

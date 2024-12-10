@@ -53,7 +53,7 @@ app.use(TokenGenerateRoute);
 app.use(signupRoute);
 app.use(signinRoute);
 app.use(pushMessageRoute);
-app.use('/fetchMessages/',fetchMessageRoute);
+app.use('/api/fetchMessages/',fetchMessageRoute);
 
 
 // Serve static files for React
