@@ -7,7 +7,7 @@ router.get("/:roomId", async (req, res) => {
     try {
     const roomId = req.params.roomId;
       // Retrieve the roomId from params
-    const fetchedMessages = await messageModel.find({ roomId }).sort({ timestamp: -1 });
+    const fetchedMessages = await messageModel.find({ roomId }).sort({ timestamp: +1 });
     console.log('fetched messages from database', fetchedMessages)
     res.status(200).json(fetchedMessages);
     // res.status(200).json(messages);
